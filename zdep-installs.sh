@@ -10,27 +10,7 @@ MYSQL_VERSION="5.6.30-1.linux_glibc2.5"
 #Option
 installOption=$1
 
-case $installOption in
-java)
-  echo -e "Installer will install Java $JAVA_VERSION .."
-  javaInstall
-  ;;
-mysql)
-  echo -e "Installer will install MySQL $MYSQL_MAJOR .."
-  mysqlInstall
-  ;;
-jmeterServerAgent)
-  echo -e "Installer will install jmeter Server Agent 2.2.1"
-  jmeterServerAgentInstall
-  ;;
-httpd)
-  echo -e "Installer will install Apache version 2.4.18+ with Event Mpm"
-  apache24Install
-  ;;
---help|-h)
-  echo -e "Choose any of the following options : ./scriptname.sh java / mysql / jmeterServerAgent / httpd"
-  ;;
-esac
+
 
 javaInstall() {
 wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/$JAVA_VERSION-$BUILD_VERSION/jdk-$JAVA_VERSION-linux-x64.rpm" -O /tmp/jdk-8-linux-x64.rpm
@@ -104,3 +84,26 @@ sed -i '/^#.* mpm_event_module /s/^#//' /etc/httpd/conf.modules.d/00-mpm.conf
 echo -e "Checking current mpm"
 httpd -V | grep "Server MPM"
 }
+
+
+case $installOption in
+java)
+  echo -e "Installer will install Java $JAVA_VERSION .."
+  javaInstall
+  ;;
+mysql)
+  echo -e "Installer will install MySQL $MYSQL_MAJOR .."
+  mysqlInstall
+  ;;
+jmeterServerAgent)
+  echo -e "Installer will install jmeter Server Agent 2.2.1"
+  jmeterServerAgentInstall
+  ;;
+httpd)
+  echo -e "Installer will install Apache version 2.4.18+ with Event Mpm"
+  apache24Install
+  ;;
+--help|-h)
+  echo -e "Choose any of the following options : ./scriptname.sh java / mysql / jmeterServerAgent / httpd"
+  ;;
+esac
