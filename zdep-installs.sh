@@ -47,16 +47,21 @@ cp -pfd /tmp/UnlimitedJCEPolicyJDK8/*.jar /usr/java/default/jre/lib/security/
 }
 
 mysqlInstall() {
-wget --quiet --no-check-certificate --no-cookies "http://dev.mysql.com/get/Downloads/MySQL-$MYSQL_MAJOR/MySQL-$MYSQL_VERSION.x86_64.rpm-bundle.tar"  -O /tmp/MySQL-$MYSQL_MAJOR-bundle.tar
+wget --no-check-certificate --no-cookies "http://dev.mysql.com/get/Downloads/MySQL-$MYSQL_MAJOR/MySQL-$MYSQL_VERSION.x86_64.rpm-bundle.tar"  -O /tmp/MySQL-$MYSQL_MAJOR-bundle.tar
 
-tar -xvf /tmp/MySQL-$MYSQL_MAJOR-bundle.tar --directory /tmp/ && \
+tar -xvf /tmp/MySQL-$MYSQL_MAJOR-bundle.tar --directory /tmp/
+
 yum -y --nogpgcheck install /tmp/MySQL-client-$MYSQL_VERSION.x86_64.rpm && \
 yum -y --nogpgcheck install /tmp/MySQL-devel-$MYSQL_VERSION.x86_64.rpm && \
 yum -y --nogpgcheck install /tmp/MySQL-shared-$MYSQL_VERSION.x86_64.rpm && \
 yum -y --nogpgcheck install /tmp/MySQL-server-$MYSQL_VERSION.x86_64.rpm
 
+mkdir -p /var/run/mysqld
+chown mysql: /var/run/mysqld
+wget https://raw.githubusercontent.com/sayan-d/sayf/master/sample-my.cnf -O /etc/my.cnf
+
 # cleanup
-RUN rm -f /tmp/MySQL-$MYSQL_MAJOR-bundle.tar && \
+rm -f /tmp/MySQL-$MYSQL_MAJOR-bundle.tar && \
 rm -f /tmp/MySQL-client-$MYSQL_VERSION.x86_64.rpm && \
 rm -f /tmp/MySQL-devel-$MYSQL_VERSION.x86_64.rpm && \
 rm -f /tmp/MySQL-shared-$MYSQL_VERSION.x86_64.rpm && \
@@ -72,7 +77,7 @@ wget http://jmeter-plugins.org/downloads/file/ServerAgent-2.2.1.zip -O /tmp/Serv
 unzip /tmp/ServerAgent-2.2.1.zip -d /usr/local/jmeterServerAgent/
 
 #To start jmeter ServerAgent
-/usr/local/jmeterServerAgent/startAgent.sh
+#/usr/local/jmeterServerAgent/startAgent.sh
 }
 
 apache24Install() {
