@@ -30,7 +30,7 @@ mysqlInstall() {
 wget --no-check-certificate --no-cookies "http://dev.mysql.com/get/Downloads/MySQL-$MYSQL_MAJOR/MySQL-$MYSQL_VERSION.x86_64.rpm-bundle.tar"  -O /tmp/MySQL-$MYSQL_MAJOR-bundle.tar
 
 
-yum -y install perl-Data-Dumper 
+yum -y install perl-Data-Dumper
 tar -xvf /tmp/MySQL-$MYSQL_MAJOR-bundle.tar --directory /tmp/
 
 yum -y --nogpgcheck install /tmp/MySQL-client-$MYSQL_VERSION.x86_64.rpm && \
@@ -103,7 +103,17 @@ httpd)
   echo -e "Installer will install Apache version 2.4.18+ with Event Mpm"
   apache24Install
   ;;
+zeeNODE)
+  echo -e "Installer will install mysql, jmeterServerAgent"
+  mysqlInstall
+  jmeterServerAgentInstall
+  ;;
+zeeLB)
+  echo -e "Installer will install Apache, jmeterServerAgent"
+  apache24Install
+  jmeterServerAgentInstall
+  ;;
 --help|-h)
-  echo -e "Choose any of the following options : ./scriptname.sh java / mysql / jmeterServerAgent / httpd"
+  echo -e "Choose any of the following options : ./scriptname.sh java / mysql / jmeterServerAgent / httpd / zeeNODE / zeeLB"
   ;;
 esac
