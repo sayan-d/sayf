@@ -14,7 +14,7 @@ installOption=$1
 
 javaInstall() {
 wget --quiet --no-check-certificate --no-cookies --header "Cookie: oraclelicense=accept-securebackup-cookie" "http://download.oracle.com/otn-pub/java/jdk/$JAVA_VERSION-$BUILD_VERSION/jdk-$JAVA_VERSION-linux-x64.rpm" -O /tmp/jdk-8-linux-x64.rpm
-
+rpm -ivh /tmp/jdk-8-linux-x64.rpm
 alternatives --install /usr/bin/java java /usr/java/latest/bin/java 200000 && \
 alternatives --install /usr/bin/jar jar /usr/java/latest/bin/jar 200000 && \
 alternatives --install /usr/bin/javaws javaws /usr/java/latest/bin/javaws 200000 && \
