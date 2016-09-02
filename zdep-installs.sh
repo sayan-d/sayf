@@ -27,6 +27,10 @@ cp -pfd /tmp/UnlimitedJCEPolicyJDK8/*.jar /usr/java/default/jre/lib/security/
 }
 
 mysqlInstall() {
+echo -e "Removing any mysql-libs package if present by default"
+rpm -e mysql-libs-* --nodeps
+
+echo -e "Downloading MySQL 5.6.x and installing .."
 wget --no-check-certificate --no-cookies "http://dev.mysql.com/get/Downloads/MySQL-$MYSQL_MAJOR/MySQL-$MYSQL_VERSION.x86_64.rpm-bundle.tar"  -O /tmp/MySQL-$MYSQL_MAJOR-bundle.tar
 
 
