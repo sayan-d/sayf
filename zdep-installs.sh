@@ -1,5 +1,6 @@
-
-#This script can be used to install JAVA, MySQL, Jmeter ServerAgent & Apache
+#!/bin/sh
+#By Sayan Das
+#This script can be used to install JAVA, MySQL, Jmeter ServerAgent & Apache in Centos 6.x or Amazon Linux 2016.x
 
 #Vars
 BUILD_VERSION="b03"
