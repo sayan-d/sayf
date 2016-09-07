@@ -91,6 +91,24 @@ httpd -V | grep "Server MPM"
 }
 
 
+nginxInstall() {
+ yum install -y pcre-devel openssl-devel gcc
+ wget http://nginx.org/download/nginx-1.9.9.tar.gz -O /usr/local/src/nginx-1.9.9.tar.gz
+ tar -xvf /usr/local/src/nginx-1.9.9.tar.gz --directory /usr/local/src/
+ 
+ wget https://bitbucket.org/nginx-goodies/nginx-sticky-module-ng/get/08a395c66e42.zip -O /usr/local/src/nginx-sticky-module-ng.zip
+ unzip /usr/local/src/nginx-sticky-module-ng.zip -d /usr/local/src/
+ 
+ /usr/local/src/nginx-1.9.9/configure --prefix=/etc/nginx --conf-path=/etc/nginx/nginx.conf --pid-path=/var/run/nginx.pid --lock-path=/var/run/nginx.lock --with-http_ssl_module --with-http_v2_module --add-module=/usr/local/src/nginx-goodies-nginx-sticky-module-ng-08a395c66e42/
+ make
+ make install
+ 
+ wget https://raw.githubusercontent.com/sayan-d/sayf/master/nginx-init-file.sh -O /etc/rc.d/init.d/nginx
+ chmod 755 /etc/rc.d/init.d/nginx
+ ln -s /etc/nginx/sbin/nginx /usr/sbin/nginx
+ service nginx start
+}
+
 case $installOption in
 java)
   echo -e "Installer will install Java $JAVA_VERSION .."
@@ -118,7 +136,11 @@ zeeLB)
   apache24Install
   jmeterServerAgentInstall
   ;;
+nginx)
+  echo -e "Installer will install Nginx and also add Sticky session module"
+  nginxInstall
+  ;;
 --help|-h)
-  echo -e "Choose any of the following options : ./scriptname.sh java / mysql / jmeterServerAgent / httpd / zeeNODE / zeeLB"
+  echo -e "Choose any of the following options : ./scriptname.sh java / mysql / jmeterServerAgent / httpd / zeeNODE / zeeLB / nginx"
   ;;
 esac
